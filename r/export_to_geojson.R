@@ -93,11 +93,28 @@ arrivals_aggregated <- arrivals_ready %>%
               values_from = arrivals,
               names_prefix = "arrivals_",
               values_fill = 0) %>% 
+  # Remove rows with no arrivals
+  # filter: removed 1,759 rows (3%), 64,820 rows remaining
+  filter(arrivals_during_cuts > 0 & arrivals_before_cuts > 0) %>% 
   # Percentage loss
   mutate(percent_change = (arrivals_during_cuts / arrivals_before_cuts) - 1) %>% 
-  mutate(percent_change = scales::label_percent()(percent_change))
-
-# Post-cut network data --------------------------------------------------------------------------------
+  mutate(percent_change = round(percent_change, 2)) %>% 
+  # Average waiting time
+  mutate(time_numerator =
+           case_when(time_of_day == "Early morning (00:00 to 6:59)" ~ 420,
+                     time_of_day == "Morning rush (07:00 to 9:59)" ~ 180,
+                     time_of_day == "Midday (10:00 to 14:59)" ~ 300,
+                     time_of_day == "Afternoon rush (15:00 to 18:59)" ~ 240, 
+                     time_of_day == "Evening (19:00 to 23:59)" ~ 300)) %>% 
+  mutate(headway_before_cuts = time_numerator / arrivals_before_cuts) %>% 
+  mutate(headway_during_cuts = time_numerator / arrivals_during_cuts) %>% 
+  mutate(expected_wait_time_difference = (headway_during_cuts - headway_before_cuts) / 2) %>% 
+  mutate(expected_wait_time_difference = round(expected_wait_time_difference, 1)) %>% 
+  select(route_id, week_period, time_of_day, trip_headsign, stop_id, stop_name, 
+         arrivals_before_cuts, arrivals_during_cuts, 
+         percent_change, expected_wait_time_difference)
+  
+  # Post-cut network data --------------------------------------------------------------------------------
 
 network_raw <- read_gtfs(str_c(data_dir, "raw", "septa_cut", "google_bus.zip", sep = "/"))
 
@@ -125,7 +142,7 @@ network_routes_mapping <- network_geometry %>%
 
 # Arrivals data with stop coords
 arrivals_export <- network_stops %>%
-  inner_join(arrivals_aggregated %>% select(-direction_id))
+  inner_join(arrivals_aggregated)
   
 # Export --------------------------------------------------------------------------------------
 

@@ -1,0 +1,112 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+  <!-- Load leaflet -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+  integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+  crossorigin=""/>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+  integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+  crossorigin=""></script>
+  
+  <script type="module" src="js/main.js" defer></script>
+  <link rel="stylesheet" href="css/styles.css">
+  
+  <title>SEPTA service reductions simulator</title>
+</head>
+
+<body>
+  <main>
+    <div class="content">
+      <div class="map-container">
+        <div id="map"></div>
+      </div>
+      
+      <div class="sidebar">
+        
+        <div class="sidebar-container" id="directions-container">
+          <section class="directions">
+            <h2>How did SEPTA service cuts affect our trips?</h2>
+            <p>During the SEPTA service cuts of August 2025, bus frequencies were reduced even for routes which weren't cut. How much time did this cost SEPTA riders?</p>
+            <p>Find out how much your own trips were affected by specifying your trip below.</p>
+          </section>
+        </div>
+        
+        <div class="sidebar-container" id="trip-search-container">
+          
+          <div class="input">
+            <label for="route-select">Your route</label><br>            
+            <select name="route" id="route-select">
+              <option value="">Please choose your route</option>
+              <option value="dog">Dog</option>
+              <option value="cat">Cat</option>
+            </select>
+          </div>
+          
+          <div class="input">
+            <label for="direction-select">Trip direction</label><br>            
+            <select name="direction" id="direction-select">
+              <option value="">Please choose your trip direction</option>
+              <option value="northbound">Northbound</option>
+              <option value="southbound">Southbound</option>
+            </select>
+          </div>
+          
+          <div class="input">
+            <label for="weekday-select">Day of week</label><br>            
+            <select name="weekday" id="weekday-select">
+              <option value="">Please choose when in the week</option>
+              <option value="weekday">Weekday</option>
+              <option value="weekend">Weekend</option>
+            </select>
+          </div>
+          
+          <div class="input">
+            <label for="time-select">Time of day</label><br>            
+            <select name="time" id="time-select">
+              <option value="">Please choose your time of day</option>
+              <option value="morning">Morning (6am-10am)</option>
+              <option value="afternoon">Afternoon (10am-4pm)</option>
+              <option value="evening">Evening (4pm-10pm)</option>
+            </select>
+          </div>
+          
+          <div class="input">
+            <label for="stop-select">Your stop</label><br>            
+            <select name="stop" id="stop-select">
+              <option value="">Please choose your stop</option>
+              <option value="dog">Dog</option>
+              <option value="cat">Cat</option>
+            </select>
+          </div>
+          
+        </div>
+        
+        <div class="sidebar-container" id="user-container">
+          <section class="user-results">
+            <h3>Affects on your trip</h3>
+            <p>(Specify your trip using the menus above to find out how it was affected).</p>
+          </section>
+        </div>
+        
+        <div class="sidebar-container" id="community-container">
+          <section class="community-results">
+            <h3>Affects on community trips</h3>
+            <p>Based on all users of this tool, ....</p>
+          </section>
+        </div>
+        
+        <div class="citations">
+          <p>Datasource: Archived real-time arrival data for 50 bus routes shared by SEPTA. For our methodology, see <a href="https://github.com/chihyunkim/septa-cuts-engagement">here</a>.</p>
+        </div>
+        
+      </div>
+    </div>    
+    
+  </main>
+</body>
+</html>

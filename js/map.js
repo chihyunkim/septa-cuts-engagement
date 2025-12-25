@@ -1,5 +1,3 @@
-
-
 /**
 * Initialize the Leaflet map with base layers and controls
 * @param {HTMLElement} mapElement - DOM element to attach the map to
@@ -25,9 +23,6 @@ async function initMap(mapElement, initialData) {
     });
     initialLayer.addTo(map);
     map.fitBounds(initialLayer.getBounds());
-    
-    return map;
 }
-
 
 export { initMap };

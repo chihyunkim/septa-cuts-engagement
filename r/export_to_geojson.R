@@ -77,11 +77,14 @@ directions <- arrivals_ready %>%
   count(route_id, direction_id, trip_headsign) %>% 
   arrange(route_id, direction_id, desc(n)) %>% 
   slice_max(order_by = n, by = c(route_id, direction_id), with_ties = FALSE)
+
+# Clean order of routes
+routes_order <- gtools::mixedsort(unique(arrivals_ready$route_id))
   
 # Aggregate number of arrivals
 arrivals_aggregated <- arrivals_ready %>% 
   mutate(stop_id = as.character(stop_id)) %>% 
-  group_by(period, route_id, direction_id, week_period, stop_id, stop_name, time_of_day) %>% 
+  group_by(period, route_id, direction_id, week_period, stop_id, stop_name, gtfs_stop_sequence, time_of_day) %>% 
   summarize(arrivals = n()) %>% 
   ungroup() %>% 
   # Join prototypical direction headsigns
@@ -110,11 +113,14 @@ arrivals_aggregated <- arrivals_ready %>%
   mutate(headway_during_cuts = time_numerator / arrivals_during_cuts) %>% 
   mutate(expected_wait_time_difference = (headway_during_cuts - headway_before_cuts) / 2) %>% 
   mutate(expected_wait_time_difference = round(expected_wait_time_difference, 1)) %>% 
-  select(route_id, week_period, time_of_day, trip_headsign, stop_id, stop_name, 
+  # Order and select
+  mutate(route_id = fct_relevel(route_id, routes_order)) %>% 
+  arrange(route_id, week_period, time_of_day, trip_headsign, gtfs_stop_sequence) %>% 
+  select(route_id, week_period, time_of_day, trip_headsign, stop_id, stop_name,
          arrivals_before_cuts, arrivals_during_cuts, 
          percent_change, expected_wait_time_difference)
   
-  # Post-cut network data --------------------------------------------------------------------------------
+# Post-cut network data --------------------------------------------------------------------------------
 
 network_raw <- read_gtfs(str_c(data_dir, "raw", "septa_cut", "google_bus.zip", sep = "/"))
 
@@ -141,8 +147,7 @@ network_routes_mapping <- network_geometry %>%
   filter(route_id %in% arrivals_aggregated$route_id)
 
 # Arrivals data with stop coords
-arrivals_export <- network_stops %>%
-  inner_join(arrivals_aggregated)
+arrivals_export <- inner_join(arrivals_aggregated, network_stops)
   
 # Export --------------------------------------------------------------------------------------
 

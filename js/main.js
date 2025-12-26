@@ -13,7 +13,7 @@ const septaNetwork = await utils.getGeojsonCollection('septa_routes.json');
 const arrivalsAndStops = await utils.getGeojsonCollection('arrivals_and_stops.json');
 
 // Initialize map
-initMap(mapElement, septaNetwork);
+initMap(events, mapElement, septaNetwork);
 
 // Populate route dropdown and set up listener
 dropdown.populateDropdown(events, arrivalsAndStops, 'route', 'route_id', 'Please choose your route');

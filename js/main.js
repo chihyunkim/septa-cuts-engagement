@@ -10,12 +10,13 @@ import * as storage from './storage.js';
 // weekdayData - dispatched when day of week is selected
 // timeData - dispatched when time of day is selected
 // stopData - dispatched when stop is selected
+// userDataStored - dispatched when user data is stored in Firestore
 const events = new EventTarget();
 
 const mapElement = document.querySelector('#map');
-const septaNetwork = await utils.getGeojsonCollection('septa_routes.json');
 
-// Read routes JSON data
+// Read geoJSON data
+const septaNetwork = await utils.getGeojsonCollection('septa_routes.json');
 const arrivalsAndStops = await utils.getGeojsonCollection('arrivals_and_stops.json');
 
 // Initialize map
@@ -47,4 +48,3 @@ storage.storeUserData(events);
 
 // Update user data summary statistics when user's own data is stored
 htmlDisplay.updateCommunityDataSummary(events);
-

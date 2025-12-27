@@ -80,5 +80,4 @@ export function cascadeDropdown(eventBus, dataEventName, dropdownId, propertyNam
         // Logging for debugging
         console.log(`New dropdown populated for: ${dropdownId}, filtering by ${propertyName}`);
     });
-
 }

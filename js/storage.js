@@ -103,8 +103,5 @@ export async function calculateSummaryStatistics() {
         totalWaitTimeDifference
     };
     
-    // Print summary statistics to console for debugging
-    console.log('Summary community statistics:', returnData);
-    
     return returnData;
 };

@@ -53,5 +53,3 @@ export function filterGeojsonByProperty(geojsonData, propertyName, propertyValue
     
     return returnData;
 }
-
-

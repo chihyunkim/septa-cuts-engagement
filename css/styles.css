@@ -27,8 +27,8 @@ body {
 }
 
 .marker-pin {
-  width: 40px;
-  height: 40px;
+  width: 30px;
+  height: 30px;
   border-radius: 50% 50% 50% 0;
   background: #000000;
   position: absolute;
@@ -40,8 +40,8 @@ body {
 
 .marker-pin::after {
   content: '';
-  width: 32px;
-  height: 32px;
+  width: 24px;
+  height: 24px;
   margin: 3px 0 0 3px;
   background: #fff;
   position: absolute;
@@ -50,8 +50,8 @@ body {
 
 .custom-div-icon i {
   position: absolute;
-  width: 29px;
-  font-size: 29px;
+  width: 22px;
+  font-size: 22px;
   left: 0;
   right: 0;
   margin: 10px auto;
@@ -60,7 +60,7 @@ body {
 
 .custom-div-icon i.awesome {
   margin: 12px auto;
-  font-size: 23px;
+  font-size: 17px;
 }
 
 .sidebar {
